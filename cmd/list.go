@@ -23,8 +23,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
+	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
 
@@ -36,6 +36,7 @@ var (
 		Short:   "List installed versions",
 		Use:     "list",
 	}
+	releaseNotesURL = "https://github.com/hashicorp/terraform/releases/tag/v%s"
 )
 
 func init() {
@@ -63,33 +64,25 @@ func listRun(cmd *cobra.Command, args []string) {
 }
 
 // listVersions takes the currently installed versions, and the current
-// active version, and prints out a pretty list
+// active version, and prints out a pretty table
 func listVersions(inst []string, cur string) error {
-	total := len(inst)
-	if total == 0 {
+	if t := len(inst); t == 0 {
 		return ErrNoneInstalled
 	}
 
-	enabled := cur != ""
-
-	fmt.Printf("| %s | installed: %d | enabled: %t\n", filepath.Base(os.Args[0]), total, enabled)
-	for i, v := range inst {
-		if maxIdx := total - 1; i == maxIdx {
-			if v == cur {
-				fmt.Printf("└ %s *\n", v)
-				break
-			}
-			fmt.Printf("└ %s\n", v)
-			break
-		}
+	tw := table.NewWriter()
+	tw.AppendHeader(table.Row{"Version", "Active", "Release Notes"})
+	for _, v := range inst {
+		rn := fmt.Sprintf(releaseNotesURL, v)
 
 		if v == cur {
-			fmt.Printf("├ %s *\n", v)
+			tw.AppendRow(table.Row{v, "true", rn})
 			continue
 		}
 
-		fmt.Printf("├ %s\n", v)
+		tw.AppendRow(table.Row{v, "", rn})
 	}
 
+	fmt.Println(tw.Render())
 	return nil
 }
