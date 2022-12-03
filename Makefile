@@ -31,7 +31,7 @@ install:
 
 tfsw: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-        go mod vendor
+	go mod vendor
 	go build $(GO_BUILD_ARGS)
 
 tfsw_darwin_amd64: cmd/*.go internal/**/*.go
