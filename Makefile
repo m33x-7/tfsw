@@ -31,12 +31,10 @@ install:
 
 tfsw: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	go build $(GO_BUILD_ARGS)
 
 tfsw_darwin_amd64: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	$(CMD)
 
 tfsw_darwin_amd64.gz: tfsw_darwin_amd64
@@ -46,7 +44,6 @@ tfsw_darwin_amd64.gz: tfsw_darwin_amd64
 
 tfsw_darwin_arm64: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	$(CMD)
 
 tfsw_darwin_arm64.gz: tfsw_darwin_arm64
@@ -56,7 +53,6 @@ tfsw_darwin_arm64.gz: tfsw_darwin_arm64
 
 tfsw_freebsd_amd64: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	$(CMD)
 
 tfsw_freebsd_amd64.gz: tfsw_freebsd_amd64
@@ -66,7 +62,6 @@ tfsw_freebsd_amd64.gz: tfsw_freebsd_amd64
 
 tfsw_linux_amd64: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	$(CMD)
 
 tfsw_linux_amd64.gz: tfsw_linux_amd64
@@ -94,7 +89,6 @@ tfsw_SHA256SUMS.gpg: tfsw_SHA256SUMS
 
 tfsw_windows_amd64.exe: cmd/*.go internal/**/*.go
 	@echo Building $@ ...
-	go mod vendor
 	$(CMD)
 
 tfsw_windows_amd64.zip: tfsw_windows_amd64.exe
